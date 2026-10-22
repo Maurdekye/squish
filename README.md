@@ -52,6 +52,19 @@ You need JDK 21 and the Android SDK (`ANDROID_HOME`).
 ./gradlew assembleRelease
 ```
 
+The debug build is an on-device self-test, installed next to the real app as
+`io.github.maurdekye.squish.selftest`. It makes a synthetic photo and video in its own cache,
+squishes them with the real engine (both video formats), and logs the results under
+`SquishSelfTest`. It doesn't touch your media and doesn't appear as a picker:
+
+```sh
+./gradlew assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n io.github.maurdekye.squish.selftest/io.github.maurdekye.squish.SelfTestActivity
+adb logcat -s SquishSelfTest
+adb uninstall io.github.maurdekye.squish.selftest
+```
+
 Without a signing key the release APK is unsigned. To sign, point the Gradle property
 `squish.signingProperties` at a properties file with `storeFile`, `storePassword`, `keyAlias`
 and `keyPassword`, or set `SQUISH_KEYSTORE_FILE`, `SQUISH_KEYSTORE_PASSWORD`, `SQUISH_KEY_ALIAS`

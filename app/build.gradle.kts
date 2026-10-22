@@ -49,6 +49,12 @@ android {
     }
 
     buildTypes {
+        // The debug build is only the on-device self-test harness (see src/debug); it installs
+        // next to the real app without showing up as a picker or share target.
+        debug {
+            applicationIdSuffix = ".selftest"
+            versionNameSuffix = "-selftest"
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The debug build is a self-test harness (app id ...squish.selftest). It must not show up as a
+    picker, share target or launcher icon next to the real app. Run it with:
+    adb shell am start -n io.github.maurdekye.squish.selftest/io.github.maurdekye.squish.SelfTestActivity
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <activity android:name=".MainActivity" tools:node="remove" />
+        <activity android:name=".PickerActivity" tools:node="remove" />
+        <activity android:name=".ShareActivity" tools:node="remove" />
+
+        <activity
+            android:name=".SelfTestActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Squish.Transparent" />
+    </application>
+</manifest>
