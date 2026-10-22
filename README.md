@@ -60,7 +60,8 @@ and `SQUISH_KEY_PASSWORD`.
 ## Releases
 
 GitHub Actions builds an APK for every push and pull request (see the run's artifacts). To publish
-a release, set `appVersion` in `app/build.gradle.kts`, commit, and push a matching tag:
+a release, set `appVersion` in `app/build.gradle.kts`, add a section for that version to
+`CHANGELOG.md` saying what changed (it becomes the release notes), commit, and push a matching tag:
 
 ```sh
 git tag v0.2.0
