@@ -32,8 +32,9 @@ so this is a setting. The app also has a **Try it** button for shrinking files w
 ## How it shrinks
 
 - **Videos** are re-encoded on the phone's hardware encoder to H.264 and AAC in an MP4, which every
-  Discord client plays. The bitrate is worked out from the clip's length so the file lands just
-  under the limit. Long clips also get a lower resolution, 60 fps clips drop to 30 fps, and HDR
+  Discord client plays. You can switch to H.265 (HEVC) in the app for a sharper picture at the same
+  size, but some devices, mostly computers, can't play H.265 inside Discord. The bitrate is worked
+  out from the clip's length so the file lands just under the limit. Long clips also get a lower resolution, 60 fps clips drop to 30 fps, and HDR
   clips are converted to normal (SDR) colour. If a video would come out blurry (below 480p),
   Squish warns you first, so you can trim it instead.
 - **Photos** are re-saved as JPEG (WebP if they have transparency), lowering quality and then size

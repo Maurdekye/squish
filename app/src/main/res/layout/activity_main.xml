@@ -86,6 +86,37 @@
 
         <TextView
             style="@style/Squish.Section"
+            android:text="@string/codec_title" />
+
+        <RadioGroup
+            android:id="@+id/codec_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/codec_h264"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/codec_h264" />
+
+            <RadioButton
+                android:id="@+id/codec_h265"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/codec_h265" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/codec_note"
+            style="@style/Squish.Body"
+            android:layout_marginTop="4dp"
+            android:alpha="0.8"
+            android:text="@string/codec_note" />
+
+        <TextView
+            style="@style/Squish.Section"
             android:text="@string/howto_title" />
 
         <TextView

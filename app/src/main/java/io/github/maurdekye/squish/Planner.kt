@@ -13,6 +13,7 @@ sealed interface Plan {
     data class Image(val maxBytes: Long) : Plan
 
     data class Video(
+        val codec: VideoCodec,
         /** Short side of the output, in pixels. */
         val shortSide: Int,
         /** Output frame rate when it's lowered, or null to keep the source's. */
@@ -43,18 +44,18 @@ object Planner {
     private const val MIN_VIDEO_BITRATE = 60_000
     private const val MAX_VIDEO_BITRATE = 16_000_000
 
-    fun plan(info: MediaInfo, limitBytes: Long): Plan {
+    fun plan(info: MediaInfo, limitBytes: Long, codec: VideoCodec = VideoCodec.H264): Plan {
         if (info.size in 0..limitBytes) return Plan.Keep
         return when (info.kind) {
             Kind.IMAGE ->
                 if (info.mime == "image/gif") Plan.CantShrink(Plan.Reason.GIF)
                 else Plan.Image(maxBytes = (limitBytes * 0.98).toLong())
-            Kind.VIDEO -> planVideo(info, limitBytes)
+            Kind.VIDEO -> planVideo(info, limitBytes, codec)
             Kind.OTHER -> Plan.CantShrink(Plan.Reason.NOT_MEDIA)
         }
     }
 
-    private fun planVideo(info: MediaInfo, limitBytes: Long): Plan {
+    private fun planVideo(info: MediaInfo, limitBytes: Long, codec: VideoCodec): Plan {
         if (info.durationMs <= 0 || info.width <= 0 || info.height <= 0) {
             return Plan.CantShrink(Plan.Reason.UNREADABLE)
         }
@@ -79,12 +80,15 @@ object Planner {
         }
 
         // A source that already looks fine on few bits (simple content, or an efficient encoder, as
-        // with downloaded clips) keeps more resolution than fresh camera footage would.
+        // with downloaded clips) keeps more resolution than fresh camera footage would. H.265 gets
+        // the same picture from fewer bits, so it keeps more resolution too.
+        val factor = codec.bitsFactor
         val sourceBpp = if (info.bitrate > 0) info.bitrate / (info.width.toDouble() * info.height * sourceFps) else GOOD_BPP
-        val neededBpp = (sourceBpp * 1.3).coerceIn(LEAN_BPP, GOOD_BPP)
+        val neededBpp = (sourceBpp * 1.3 * factor).coerceIn(LEAN_BPP * factor, GOOD_BPP * factor)
         val shortSide = candidates.firstOrNull { bpp(it) >= neededBpp } ?: candidates.last()
-        val poor = (shortSide < 480 && shortSide < sourceShort) || bpp(shortSide) < POOR_BPP
+        val poor = (shortSide < 480 && shortSide < sourceShort) || bpp(shortSide) < POOR_BPP * factor
         return Plan.Video(
+            codec = codec,
             shortSide = shortSide,
             frameRate = if (fps < sourceFps) fps else null,
             videoBitrate = video,

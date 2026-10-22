@@ -29,7 +29,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 
-/** Hardware transcode to H.264 + AAC in MP4, which every Discord client plays. */
+/** Hardware transcode to H.264 (or H.265 when chosen) + AAC in MP4. H.264 plays in every Discord client. */
 @OptIn(UnstableApi::class)
 object VideoSquisher {
     private const val TAG = "Squish"
@@ -85,7 +85,7 @@ object VideoSquisher {
             .setEnableFallback(true)
             .build()
         val transformer = Transformer.Builder(app)
-            .setVideoMimeType(MimeTypes.VIDEO_H264)
+            .setVideoMimeType(plan.codec.mimeType)
             .setAudioMimeType(MimeTypes.AUDIO_AAC)
             .setEncoderFactory(encoders)
             .addListener(object : Transformer.Listener {
@@ -110,7 +110,7 @@ object VideoSquisher {
         } else {
             EditedMediaItemSequence.withVideoFrom(listOf(item))
         }
-        // H.264 here is SDR, so HDR phone videos get tone-mapped instead of washed out.
+        // The output is SDR, so HDR phone videos get tone-mapped instead of washed out.
         val composition = Composition.Builder(sequence)
             .setHdrMode(Composition.HDR_MODE_TONE_MAP_HDR_TO_SDR_USING_OPEN_GL)
             .build()

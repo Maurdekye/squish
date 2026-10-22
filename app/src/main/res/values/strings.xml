@@ -13,6 +13,12 @@
     <string name="limit_custom_hint">Limit in MB</string>
     <string name="limit_note">Squish can\'t see your Discord plan without your Discord login, and it never asks for it, so pick your limit here. Files already under the limit are sent as they are.</string>
 
+    <string name="codec_title">Video format</string>
+    <string name="codec_h264">H.264 (default): plays everywhere</string>
+    <string name="codec_h265">H.265 (HEVC): sharper at the same size</string>
+    <string name="codec_note">H.265 gives better quality for the same file size, but some devices, mostly computers, can\'t play it inside Discord, so people there would have to download it to watch.</string>
+    <string name="codec_unsupported">This phone has no H.265 encoder, so Squish will use H.264.</string>
+
     <string name="howto_title">How to use it</string>
     <string name="howto_body">In Discord, tap + and then Files. In the file screen, open the menu (☰) and choose Squish. Pick your photos or videos.\n\nOr share photos or videos from your gallery and choose \"Squish for Discord\".</string>
 

@@ -30,6 +30,7 @@ class MainActivity : Activity() {
         settings = Settings(this)
         applyInsets(findViewById(R.id.root))
         setUpLimit()
+        setUpCodec()
         results = findViewById(R.id.test_results)
         findViewById<Button>(R.id.test_button).setOnClickListener { pickForTest() }
         findViewById<TextView>(R.id.footer).text = getString(R.string.version, BuildConfig.VERSION_NAME)
@@ -99,6 +100,18 @@ class MainActivity : Activity() {
         })
     }
 
+    private fun setUpCodec() {
+        val group = findViewById<RadioGroup>(R.id.codec_group)
+        group.check(if (settings.videoCodec == VideoCodec.H265) R.id.codec_h265 else R.id.codec_h264)
+        if (!VideoCodec.hasEncoder(VideoCodec.H265)) {
+            findViewById<View>(R.id.codec_h265).isEnabled = false
+            findViewById<TextView>(R.id.codec_note).setText(R.string.codec_unsupported)
+        }
+        group.setOnCheckedChangeListener { _, id ->
+            settings.videoCodec = if (id == R.id.codec_h265) VideoCodec.H265 else VideoCodec.H264
+        }
+    }
+
     private fun pickForTest() {
         try {
             startActivityForResult(MediaPick.mediaIntent(null, MediaPick.DISCORD_MAX_FILES), REQUEST_TEST)
@@ -126,7 +139,8 @@ class MainActivity : Activity() {
                 text = if (item == null) {
                     getString(R.string.test_kept, p.info.name, Formats.size(p.info.size))
                 } else {
-                    getString(R.string.test_squished, p.info.name, Formats.size(p.info.size), Formats.size(item.squishedFile.length()))
+                    val result = getString(R.string.test_squished, p.info.name, Formats.size(p.info.size), Formats.size(item.squishedFile.length()))
+                    if (p.detail == null) result else "$result (${p.detail})"
                 }
             }
             val row = LinearLayout(this).apply {

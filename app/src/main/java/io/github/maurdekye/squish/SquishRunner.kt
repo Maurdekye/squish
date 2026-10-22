@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import kotlinx.coroutines.CancellationException
@@ -18,8 +19,11 @@ import java.io.File
 import java.io.IOException
 import kotlin.coroutines.resume
 
-/** One picked file and what Squish made of it. [item] is null when the original goes as is. */
-class Picked(val info: MediaInfo, val item: Item?)
+/**
+ * One picked file and what Squish made of it. [item] is null when the original goes as is.
+ * [detail] describes the squished video, e.g. "720p H.264".
+ */
+class Picked(val info: MediaInfo, val item: Item?, val detail: String? = null)
 
 /**
  * Checks the picked files, warns about results that will look poor, then squishes whatever is over
@@ -33,13 +37,16 @@ class SquishRunner(
     private val keepOriginals: Boolean,
     private val onDone: (List<Picked>?) -> Unit,
 ) {
-    private val limitBytes = Settings(activity).limitBytes
-    private val limitMb = Settings(activity).limitMb
+    private val settings = Settings(activity)
+    private val limitBytes = settings.limitBytes
+    private val limitMb = settings.limitMb
     private val ui = ProgressUi(activity) { cancel() }
     private var job: Job? = null
     private var finished = false
 
     fun start(uris: List<Uri>) {
+        // A long video can take a minute; don't let the screen time out on it.
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         ui.show(activity.getString(R.string.checking_files))
         job = scope.launch {
             try {
@@ -61,8 +68,9 @@ class SquishRunner(
 
     private suspend fun run(uris: List<Uri>) {
         val infos = withContext(Dispatchers.IO) { uris.map { MediaProbe.probe(activity, it) } }
-        val plans = infos.map { Planner.plan(it, limitBytes) }
-        Log.i(TAG, "limit $limitBytes, plans: $plans")
+        val codec = settings.videoCodec.takeIf { it == VideoCodec.H264 || VideoCodec.hasEncoder(it) } ?: VideoCodec.H264
+        val plans = infos.map { Planner.plan(it, limitBytes, codec) }
+        Log.i(TAG, "limit $limitBytes, codec $codec (chosen ${settings.videoCodec}), plans: $plans")
         if (plans.all { it == Plan.Keep }) return finish(infos.map { Picked(it, null) })
 
         val warnings = warnings(infos, plans)
@@ -106,7 +114,8 @@ class SquishRunner(
                 if (item == null) activity.getString(R.string.sent_as_is)
                 else activity.getString(R.string.done_size, Formats.size(info.size), Formats.size(item.squishedFile.length())),
             )
-            results += Picked(info, item)
+            val detail = if (item != null && plan is Plan.Video) "${plan.shortSide}p ${plan.codec.label}" else null
+            results += Picked(info, item, detail)
         }
         finish(results)
     }
@@ -187,6 +196,7 @@ class SquishRunner(
     private fun finish(results: List<Picked>?) {
         if (finished) return
         finished = true
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         ui.hide()
         onDone(results)
     }

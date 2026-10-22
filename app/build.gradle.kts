@@ -20,7 +20,7 @@ val releaseStoreFile: String? = signingValue("SQUISH_KEYSTORE_FILE", "storeFile"
 val hasReleaseSigning = releaseStoreFile != null && file(releaseStoreFile).exists()
 
 // The one place the version lives. Release tags must be "v" + this (checked by the release workflow).
-val appVersion = "0.1.0"
+val appVersion = "0.2.0"
 val appVersionCode = appVersion.split('.').map { it.toInt() }.let { (major, minor, patch) ->
     major * 10_000 + minor * 100 + patch
 }
