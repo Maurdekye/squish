@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Squish</string>
+    <string name="share_label">Squish for Discord</string>
+
+    <string name="intro">Shrinks photos and videos you send to Discord so they fit under your upload limit. Other apps always get your original files, and your originals are never changed.</string>
+
+    <string name="limit_title">Your Discord upload limit</string>
+    <string name="limit_free">Free: 20 MB</string>
+    <string name="limit_basic">Nitro Basic: 50 MB</string>
+    <string name="limit_nitro">Nitro: 500 MB</string>
+    <string name="limit_custom">Custom</string>
+    <string name="limit_custom_hint">Limit in MB</string>
+    <string name="limit_note">Squish can\'t see your Discord plan without your Discord login, and it never asks for it, so pick your limit here. Files already under the limit are sent as they are.</string>
+
+    <string name="howto_title">How to use it</string>
+    <string name="howto_body">In Discord, tap + and then Files. In the file screen, open the menu (☰) and choose Squish. Pick your photos or videos.\n\nOr share photos or videos from your gallery and choose \"Squish for Discord\".</string>
+
+    <string name="test_title">Try it</string>
+    <string name="test_body">Shrink some photos or videos here to see the result before using it in Discord.</string>
+    <string name="test_button">Pick photos or videos</string>
+    <string name="test_view">View</string>
+    <string name="test_kept">%1$s: %2$s, already fits, sent as is</string>
+    <string name="test_squished">%1$s: %2$s → %3$s</string>
+
+    <string name="version">Version %1$s</string>
+
+    <string name="checking_files">Checking your files…</string>
+    <string name="squishing">Shrinking for Discord…</string>
+    <string name="waiting">Waiting</string>
+    <string name="retrying">Still too big, trying again smaller…</string>
+    <string name="sent_as_is">Sent as is</string>
+    <string name="done_size">%1$s → %2$s</string>
+
+    <string name="warn_title">Heads up</string>
+    <string name="warn_poor_video">%1$s (%2$s long) will come out at about %3$dp and look blurry. Trimming it first gives better quality.</string>
+    <string name="warn_cant_shrink">%1$s (%2$s) can\'t be shrunk: %3$s. It will be sent as is, and Discord may refuse it.</string>
+    <string name="warn_continue">Continue</string>
+
+    <string name="error_title">Couldn\'t shrink a file</string>
+    <string name="error_body">%1$s: %2$s\n\nSend the original instead? Discord may refuse it.</string>
+    <string name="error_send_original">Send original</string>
+
+    <string name="reason_gif">animated GIFs can\'t be shrunk without losing the animation</string>
+    <string name="reason_other">only photos and videos can be shrunk</string>
+    <string name="reason_unreadable">its length or size couldn\'t be read</string>
+    <string name="reason_too_long">it\'s too long to fit in %1$d MB</string>
+
+    <string name="pick_title">Squish</string>
+    <string name="pick_media">Photos and videos</string>
+    <string name="pick_files">Browse files</string>
+
+    <string name="no_discord">Discord isn\'t installed.</string>
+    <string name="nothing_shared">Nothing to share.</string>
+</resources>

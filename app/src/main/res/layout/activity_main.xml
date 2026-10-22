@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/Squish.Body"
+            android:layout_marginTop="8dp"
+            android:text="@string/intro" />
+
+        <TextView
+            style="@style/Squish.Section"
+            android:text="@string/limit_title" />
+
+        <RadioGroup
+            android:id="@+id/limit_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/limit_free"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/limit_free" />
+
+            <RadioButton
+                android:id="@+id/limit_basic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/limit_basic" />
+
+            <RadioButton
+                android:id="@+id/limit_nitro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/limit_nitro" />
+
+            <RadioButton
+                android:id="@+id/limit_custom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/limit_custom" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/limit_custom_mb"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:autofillHints=""
+            android:hint="@string/limit_custom_hint"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="5"
+            android:minHeight="48dp" />
+
+        <TextView
+            style="@style/Squish.Body"
+            android:layout_marginTop="8dp"
+            android:alpha="0.8"
+            android:text="@string/limit_note" />
+
+        <TextView
+            style="@style/Squish.Section"
+            android:text="@string/howto_title" />
+
+        <TextView
+            style="@style/Squish.Body"
+            android:text="@string/howto_body" />
+
+        <TextView
+            style="@style/Squish.Section"
+            android:text="@string/test_title" />
+
+        <TextView
+            style="@style/Squish.Body"
+            android:text="@string/test_body" />
+
+        <Button
+            android:id="@+id/test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/test_button" />
+
+        <LinearLayout
+            android:id="@+id/test_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:alpha="0.6"
+            android:textSize="13sp" />
+    </LinearLayout>
+</ScrollView>

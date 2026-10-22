@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two arrows pressing on a stack of bars: "squish". Layout follows Material Icons' "compress" (Apache 2.0). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M51.75,29.25h4.5V36H63L54,45 45,36h6.75Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,47.25h36v4.5H36Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,54h36v4.5H36Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,60.75 63,69.75H56.25V76.5h-4.5V69.75H45Z" />
+</vector>
