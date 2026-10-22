@@ -29,8 +29,11 @@ sealed interface Plan {
 }
 
 object Planner {
-    /** Bits per pixel per frame that H.264 needs for a decent picture. */
+    /** Bits per pixel per frame that H.264 needs for a decent picture of phone camera footage. */
     private const val GOOD_BPP = 0.075
+
+    /** The least we aim for even when the source itself was encoded very leanly. */
+    private const val LEAN_BPP = 0.045
 
     /** Below this, the picture falls apart into blocks whatever the resolution. */
     private const val POOR_BPP = 0.04
@@ -75,7 +78,11 @@ object Planner {
             return video / (w.toDouble() * h * fps)
         }
 
-        val shortSide = candidates.firstOrNull { bpp(it) >= GOOD_BPP } ?: candidates.last()
+        // A source that already looks fine on few bits (simple content, or an efficient encoder, as
+        // with downloaded clips) keeps more resolution than fresh camera footage would.
+        val sourceBpp = if (info.bitrate > 0) info.bitrate / (info.width.toDouble() * info.height * sourceFps) else GOOD_BPP
+        val neededBpp = (sourceBpp * 1.3).coerceIn(LEAN_BPP, GOOD_BPP)
+        val shortSide = candidates.firstOrNull { bpp(it) >= neededBpp } ?: candidates.last()
         val poor = (shortSide < 480 && shortSide < sourceShort) || bpp(shortSide) < POOR_BPP
         return Plan.Video(
             shortSide = shortSide,

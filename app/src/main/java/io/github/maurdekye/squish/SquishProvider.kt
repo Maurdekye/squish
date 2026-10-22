@@ -22,6 +22,8 @@ class SquishProvider : ContentProvider() {
 
     private class Target(val item: Item, val squished: Boolean)
 
+    private val logged: MutableSet<String> = java.util.Collections.synchronizedSet(HashSet())
+
     private fun resolve(uri: Uri): Target? {
         val segments = uri.pathSegments
         if (segments.size < 2) return null
@@ -32,7 +34,8 @@ class SquishProvider : ContentProvider() {
             PATH_ITEM -> reader == Callers.DISCORD
             else -> return null
         }
-        Log.i(TAG, "${uri.lastPathSegment}: reader=$reader squished=$squished")
+        // Readers query and open the same file many times; log each reader once.
+        if (logged.add("${item.id} $reader")) Log.i(TAG, "${item.squishedName}: reader=$reader squished=$squished")
         return Target(item, squished)
     }
 

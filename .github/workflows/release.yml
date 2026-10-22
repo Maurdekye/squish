@@ -61,4 +61,4 @@ jobs:
           cp app/build/outputs/apk/release/app-release.apk "$apk"
           sha256sum "$apk" > "$apk.sha256"
           gh release create "$GITHUB_REF_NAME" "$apk" "$apk.sha256" \
-            --title "Squish $GITHUB_REF_NAME" --generate-notes
+            --title "Squish $GITHUB_REF_NAME" --notes-file .github/release-notes.md --generate-notes

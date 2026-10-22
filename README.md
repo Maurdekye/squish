@@ -1,8 +1,8 @@
 # Squish
 
-Squish is an Android app that shrinks the photos and videos you send to Discord so they fit
-under your upload limit. It works as a file picker inside Discord, and as a
-"Squish for Discord" entry in the share sheet.
+Squish is an Android app that shrinks photos and videos so they fit under an app's upload limit.
+Right now it works with Discord: as a file picker inside Discord, and as a "Squish for Discord"
+entry in the share sheet.
 
 - Only Discord gets shrunk files. Any other app that uses Squish as a picker gets your originals.
 - Your originals are never changed. Squish only reads them and writes its copies to its own cache,

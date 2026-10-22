@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "discord-squish"
+rootProject.name = "squish"
 include(":app")
